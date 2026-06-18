@@ -1,0 +1,105 @@
+{
+  "theme": "LIGHT",
+  "archetype": "4 (Swiss & High-Contrast)",
+  "brand_colors": {
+    "primary_blue": "#1E22A8",
+    "accent_yellow": "#FFD400",
+    "background_base": "#FAFAFA",
+    "surface": "#FFFFFF",
+    "text_primary": "#0F172A",
+    "text_secondary": "#475569"
+  },
+  "typography": {
+    "headings": "Outfit",
+    "body": "IBM Plex Sans",
+    "rules": {
+      "h1": "text-5xl md:text-6xl font-black tracking-tighter text-slate-900",
+      "h2": "text-3xl md:text-4xl font-bold tracking-tight text-slate-900",
+      "h3": "text-xl md:text-2xl font-semibold tracking-tight text-slate-800",
+      "body": "text-base leading-relaxed text-slate-600",
+      "overline": "text-xs font-bold uppercase tracking-[0.2em] text-[#1E22A8]"
+    }
+  },
+  "spacing_and_layout": {
+    "container": "max-w-7xl mx-auto px-6 md:px-12",
+    "section_gap": "py-24 md:py-32",
+    "bento_grid": "grid grid-cols-1 md:grid-cols-12 gap-6",
+    "general": "Generous padding, optical alignment over geometrical, mobile-first."
+  },
+  "components_strategy": {
+    "buttons": {
+      "primary": "bg-[#FFD400] text-black font-semibold hover:bg-yellow-500 transition-colors px-8 py-4 rounded-none",
+      "secondary": "border-2 border-[#1E22A8] text-[#1E22A8] font-semibold hover:bg-[#1E22A8] hover:text-white transition-colors px-8 py-4 rounded-none"
+    },
+    "cards": {
+      "service_card": "bg-white border border-slate-200 p-8 rounded-none hover:-translate-y-1 hover:shadow-xl hover:border-[#1E22A8] transition-all duration-300",
+      "step_card": "flex flex-col gap-4 border-l-2 border-slate-200 pl-6 py-2 relative"
+    },
+    "inputs": "bg-slate-50 border-slate-200 rounded-none focus:ring-2 focus:ring-[#1E22A8] focus:border-transparent transition-all",
+    "navigation": "sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200"
+  },
+  "sections": [
+    {
+      "name": "Header",
+      "description": "Sticky crystal glass nav. Logo on left. Navigation links center. 'Request Repair' button on right (Yellow)."
+    },
+    {
+      "name": "Hero",
+      "layout": "Split 50/50. Left: Overline 'EXPERT REPAIR SERVICES', H1 'We fix Computers, Mobiles & Tablets.', Subtitle 'Fast, reliable, and affordable mail-in repairs from Burnley to the whole UK.', CTAs. Right: High-quality image of hands working on a device, with a subtle 1px border and a floating badge 'Best Price Guarantee'."
+    },
+    {
+      "name": "Brands Marquee",
+      "description": "Editorial ribbon style. Very slow horizontal scroll of supported brands: Apple, Samsung, Huawei, Windows. Grayscale text, large spacing (gap-24)."
+    },
+    {
+      "name": "Services Showcase",
+      "layout": "Bento Grid. H2: 'Expert Repairs for Every Device'. Cards for Mobile Repairs & Unlocking (col-span-12 md:col-span-6), PC/Laptop Repairs (col-span-12 md:col-span-3), Data Recovery (col-span-12 md:col-span-3). Dense technical feel."
+    },
+    {
+      "name": "How It Works",
+      "layout": "4-column grid on desktop. Large numbers '01, 02, 03, 04' in #1E22A8. Steps: 1. Send details & photos, 2. Get quote & pay, 3. We repair it, 4. Posted back to you. Use crisp vertical lines connecting them."
+    },
+    {
+      "name": "Trust / Why Us",
+      "layout": "Full width dark section. bg-[#1E22A8] text-white. 4-column metrics grid: 8+ Years Experience, Best Price Guarantee, Trusted Local Shop, Free 24/7 Support. Accents in #FFD400."
+    },
+    {
+      "name": "Mail-In Form",
+      "layout": "Centered container. H2 'Request a Repair'. Cardless form directly on a slate-50 background. Fields: Name, Contact, Device Model, Issue Description, Photo Upload (File input area with dashed border). Full width Yellow submit button."
+    },
+    {
+      "name": "Footer",
+      "layout": "Massive padding py-24. Dark bg-slate-950. Big brand text 'EURO MOBILE & COMPUTER'. Contact details: Burnley, Lancashire. Legal links."
+    }
+  ],
+  "media": {
+    "hero_image": {
+      "url": "https://images.pexels.com/photos/6755075/pexels-photo-6755075.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "alt": "Close up of hands repairing a smartphone"
+    },
+    "service_pc_image": {
+      "url": "https://images.pexels.com/photos/1432670/pexels-photo-1432670.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "alt": "Computer motherboard detail"
+    }
+  },
+  "icons": {
+    "library": "lucide-react",
+    "usage": "Use Smartphone, Laptop, HardDrive for services. Use Shield, Clock, ThumbsUp, Wrench for Trust section."
+  },
+  "motion_and_interaction": {
+    "hover_states": "Buttons have crisp background color swaps (no slow fades). Cards lift slightly (-translate-y-1) and borders turn #1E22A8.",
+    "scroll_reveal": "Use framer-motion for simple staggered fade-up on sections as they scroll into view."
+  },
+  "accessibility_and_testing": {
+    "contrast": "Ensure white text on #1E22A8 meets AA standards. Ensure black text on #FFD400 meets AA standards.",
+    "testing_attributes": "All forms, inputs, buttons, and links MUST have data-testid attributes (e.g., 'hero-cta-button', 'repair-form-submit')."
+  },
+  "instructions_to_main_agent": [
+    "Use Tailwind CSS for all styling. DO NOT use custom CSS files unless absolutely necessary.",
+    "Install and use 'lucide-react' for icons.",
+    "Implement the 'Outfit' font for headings and 'IBM Plex Sans' for body text. Update index.html or layout.jsx to import these from Google Fonts.",
+    "Follow the exact color hex codes provided in the brand_colors section to respect the client's strict brand guidelines.",
+    "Keep borders sharp (rounded-none or max rounded-sm) to match the tech-oriented, clean Swiss archetype.",
+    "Use Shadcn UI components for the form inputs, but strip away any default 'Vercel' rounded corners to match the sharp design language."
+  ]
+}
