@@ -24,7 +24,15 @@ React (CRA) + FastAPI + MongoDB. (User asked for Next.js; built on the supported
 - Services bento grid, "How it works" 4-step mail-in flow, dark trust/stats section.
 - Working "Request a Repair" form (name, email, phone, device type/model, issue, up to 4 photo uploads as base64) -> POST `/api/repair-requests`, persisted in MongoDB; success state + toasts.
 - Footer with contact/location. Framer-motion scroll reveals. All data-testid attributes present.
-- Tested: 100% backend (pytest) + 100% frontend (Playwright e2e). No open bugs.
+- Tested: 100% backend (pytest) + 100% frontend (Playwright). No open bugs.
+
+## Implemented (2026-06-19)
+- Updated experience to **22 years**; added animated count-up stats (Counter.jsx): 22+ years, 75,000+ devices fixed, 38,000+ happy customers, 24/7 support.
+- **7 SEO service pages** at `/services/:slug` (mobile-phone-repair, iphone-repair, samsung-galaxy-repair, laptop-pc-repair, tablet-ipad-repair, data-recovery, phone-unlocking) with per-page title/meta/canonical + JSON-LD (Service + FAQPage) structured data, FAQ accordion, related services. Linked from Services section + footer.
+- **Floating widget** (WhatsApp / Call / Get-a-quote) + **quote popup modal** posting to `/api/repair-requests` (openable globally via `open-quote` window event).
+- Dedicated **Data Recovery section** (cards, hard drives/USB, laptops/PCs, mobiles, water-damaged devices).
+- Real contact details wired everywhere: **60 Keirby Walk, Burnley, BB11 2DE**, phone **01282 761818**, WhatsApp wa.me/441282761818, Google Map embed in footer. Email made optional server-side.
+- Tested: 100% backend + 100% frontend (iteration_2). No open bugs.
 
 ## Backlog / Next Tasks
 - P1: Integrate real payment-link generation (Stripe) triggered after admin reviews a request.

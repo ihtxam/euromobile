@@ -41,7 +41,7 @@ class StatusCheckCreate(BaseModel):
 
 class RepairRequestCreate(BaseModel):
     name: str
-    email: str
+    email: str = ""
     phone: str
     device_type: str
     device_model: str
@@ -54,7 +54,7 @@ class RepairRequest(BaseModel):
 
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str
-    email: str
+    email: str = ""
     phone: str
     device_type: str
     device_model: str
