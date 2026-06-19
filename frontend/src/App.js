@@ -2,6 +2,8 @@ import "@/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "sonner";
 import LandingPage from "@/pages/LandingPage";
+import ServicePage from "@/pages/ServicePage";
+import { FloatingWidgets } from "@/components/landing/FloatingWidgets";
 
 function App() {
   return (
@@ -10,7 +12,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/services/:slug" element={<ServicePage />} />
         </Routes>
+        <FloatingWidgets />
       </BrowserRouter>
     </div>
   );

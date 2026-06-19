@@ -1,5 +1,7 @@
-import { Smartphone, Laptop, HardDrive, ArrowUpRight } from "lucide-react";
+import { Smartphone, Laptop, HardDrive, ArrowUpRight, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Reveal } from "./Reveal";
+import { services } from "@/data/services";
 
 export const Services = () => {
   return (
@@ -21,7 +23,7 @@ export const Services = () => {
         <div className="mt-12 grid grid-cols-1 md:grid-cols-12 gap-6">
           {/* Mobile — large */}
           <Reveal testid="service-mobile" className="md:col-span-6">
-            <div className="group h-full bg-white border border-slate-200 p-8 hover:-translate-y-1 hover:shadow-xl hover:border-brand-blue transition-all duration-300 flex flex-col">
+            <Link to="/services/mobile-phone-repair" className="group block h-full bg-white border border-slate-200 p-8 hover:-translate-y-1 hover:shadow-xl hover:border-brand-blue transition-all duration-300">
               <div className="flex items-start justify-between">
                 <span className="grid h-12 w-12 place-items-center bg-brand-blue text-white">
                   <Smartphone size={22} />
@@ -43,12 +45,15 @@ export const Services = () => {
                   </span>
                 ))}
               </div>
-            </div>
+              <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-brand-blue">
+                View service <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
+              </span>
+            </Link>
           </Reveal>
 
           {/* PC */}
           <Reveal testid="service-pc" delay={0.08} className="md:col-span-3">
-            <div className="group h-full bg-white border border-slate-200 p-8 hover:-translate-y-1 hover:shadow-xl hover:border-brand-blue transition-all duration-300 flex flex-col">
+            <Link to="/services/laptop-pc-repair" className="group block h-full bg-white border border-slate-200 p-8 hover:-translate-y-1 hover:shadow-xl hover:border-brand-blue transition-all duration-300">
               <span className="grid h-12 w-12 place-items-center bg-slate-900 text-brand-yellow">
                 <Laptop size={22} />
               </span>
@@ -59,12 +64,15 @@ export const Services = () => {
                 System upgrades, RAM &amp; SSD installs, virus removal, speed
                 optimisation and screen replacement.
               </p>
-            </div>
+              <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand-blue">
+                View service <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
+              </span>
+            </Link>
           </Reveal>
 
           {/* Data */}
           <Reveal testid="service-data" delay={0.16} className="md:col-span-3">
-            <div className="group h-full bg-brand-blue text-white p-8 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 flex flex-col">
+            <Link to="/services/data-recovery" className="group block h-full bg-brand-blue text-white p-8 hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
               <span className="grid h-12 w-12 place-items-center bg-brand-yellow text-black">
                 <HardDrive size={22} />
               </span>
@@ -75,9 +83,36 @@ export const Services = () => {
                 Recover deleted or formatted photos and files from USB drives,
                 hard disks and memory cards.
               </p>
-            </div>
+              <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand-yellow">
+                View service <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
+              </span>
+            </Link>
           </Reveal>
         </div>
+
+        {/* All services — SEO discoverable links */}
+        <Reveal delay={0.1}>
+          <div className="mt-10 border border-slate-200 bg-white p-6 md:p-8">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-5">All repair services</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-1">
+              {services.map((s) => {
+                const Icon = s.icon;
+                return (
+                  <Link
+                    key={s.slug}
+                    to={`/services/${s.slug}`}
+                    data-testid={`all-service-${s.slug}`}
+                    className="group flex items-center gap-3 py-3 border-b border-slate-100 text-slate-700 hover:text-brand-blue transition-colors"
+                  >
+                    <Icon size={18} className="text-brand-blue shrink-0" />
+                    <span className="font-medium">{s.name}</span>
+                    <ArrowRight size={14} className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

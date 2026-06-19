@@ -1,11 +1,12 @@
-import { Clock, BadgePoundSterling, ThumbsUp, Headphones } from "lucide-react";
+import { Clock, Wrench, Users, Headphones } from "lucide-react";
 import { Reveal } from "./Reveal";
+import { Counter } from "./Counter";
 
 const stats = [
-  { icon: Clock, value: "8+", label: "Years of experience", sub: "Serving Lancashire since 2016" },
-  { icon: BadgePoundSterling, value: "100%", label: "Best price guarantee", sub: "Quality work, fair prices" },
-  { icon: ThumbsUp, value: "1000s", label: "Happy customers", sub: "Burnley, Nelson, Accrington & beyond" },
-  { icon: Headphones, value: "24/7", label: "Free phone support", sub: "Talk to a real technician" },
+  { icon: Clock, to: 22, suffix: "+", label: "Years of experience", sub: "Serving Lancashire since 2004" },
+  { icon: Wrench, to: 75000, suffix: "+", label: "Devices fixed", sub: "Mobiles, tablets, laptops & PCs" },
+  { icon: Users, to: 38000, suffix: "+", label: "Happy customers", sub: "Burnley, Nelson, Accrington & beyond" },
+  { icon: Headphones, static: "24/7", label: "Free phone support", sub: "Talk to a real technician" },
 ];
 
 export const Trust = () => {
@@ -23,7 +24,7 @@ export const Trust = () => {
         <Reveal>
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-yellow">Why choose us</p>
           <h2 className="mt-3 font-heading font-bold tracking-tight text-3xl md:text-4xl max-w-2xl">
-            Trusted by thousands across Lancashire
+            22 years of trusted repairs across Lancashire
           </h2>
         </Reveal>
 
@@ -32,7 +33,13 @@ export const Trust = () => {
             <Reveal key={s.label} delay={i * 0.08} testid={`stat-${i}`}>
               <div className="border-t-2 border-white/15 pt-6">
                 <s.icon className="text-brand-yellow" size={26} />
-                <p className="font-heading font-black text-4xl md:text-5xl mt-5 tracking-tight">{s.value}</p>
+                <p data-testid={`stat-value-${i}`} className="font-heading font-black text-4xl md:text-5xl mt-5 tracking-tight">
+                  {s.static ? (
+                    s.static
+                  ) : (
+                    <Counter to={s.to} suffix={s.suffix} />
+                  )}
+                </p>
                 <p className="font-semibold mt-2">{s.label}</p>
                 <p className="text-white/55 text-sm mt-1">{s.sub}</p>
               </div>

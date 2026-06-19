@@ -3,6 +3,7 @@ import { Hero } from "@/components/landing/Hero";
 import { BrandsMarquee } from "@/components/landing/BrandsMarquee";
 import { Services } from "@/components/landing/Services";
 import { HowItWorks } from "@/components/landing/HowItWorks";
+import { DataRecovery } from "@/components/landing/DataRecovery";
 import { Trust } from "@/components/landing/Trust";
 import { RepairForm } from "@/components/landing/RepairForm";
 import { Footer } from "@/components/landing/Footer";
@@ -16,6 +17,7 @@ export default function LandingPage() {
         <BrandsMarquee />
         <Services />
         <HowItWorks />
+        <DataRecovery />
         <Trust />
         <RepairForm />
       </main>

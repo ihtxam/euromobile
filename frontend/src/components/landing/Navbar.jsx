@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { contact } from "@/data/contact";
 
 const links = [
   { label: "Services", href: "#services" },
@@ -9,7 +11,7 @@ const links = [
 ];
 
 const Logo = () => (
-  <a href="#top" data-testid="nav-logo" className="flex items-center gap-2 group">
+  <Link to="/" data-testid="nav-logo" className="flex items-center gap-2 group">
     <span className="grid h-9 w-9 place-items-center bg-brand-blue text-brand-yellow font-heading font-black text-lg leading-none">
       E
     </span>
@@ -21,12 +23,14 @@ const Logo = () => (
         &amp; Computer Repair
       </span>
     </span>
-  </a>
+  </Link>
 );
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { pathname } = useLocation();
+  const prefix = pathname === "/" ? "" : "/";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -50,7 +54,7 @@ export const Navbar = () => {
           {links.map((l) => (
             <a
               key={l.href}
-              href={l.href}
+              href={`${prefix}${l.href}`}
               data-testid={`nav-link-${l.label.toLowerCase().replace(/\s/g, "-")}`}
               className="text-sm font-medium text-slate-600 hover:text-brand-blue transition-colors"
             >
@@ -61,14 +65,14 @@ export const Navbar = () => {
 
         <div className="hidden md:flex items-center gap-3">
           <a
-            href="tel:+440000000000"
+            href={contact.phoneHref}
             data-testid="nav-call"
             className="text-sm font-semibold text-brand-blue hover:underline underline-offset-4"
           >
-            Call us
+            {contact.phoneDisplay}
           </a>
           <a
-            href="#repair"
+            href={`${prefix}#repair`}
             data-testid="nav-cta"
             className="bg-brand-yellow text-black text-sm font-semibold px-5 py-2.5 hover:bg-yellow-400 transition-colors"
           >
@@ -91,7 +95,7 @@ export const Navbar = () => {
           {links.map((l) => (
             <a
               key={l.href}
-              href={l.href}
+              href={`${prefix}${l.href}`}
               onClick={() => setOpen(false)}
               className="py-2.5 text-sm font-medium text-slate-700"
             >
@@ -99,7 +103,7 @@ export const Navbar = () => {
             </a>
           ))}
           <a
-            href="#repair"
+            href={`${prefix}#repair`}
             onClick={() => setOpen(false)}
             className="mt-2 bg-brand-yellow text-black text-sm font-semibold px-5 py-3 text-center"
           >

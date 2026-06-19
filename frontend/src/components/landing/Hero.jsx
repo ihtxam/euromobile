@@ -74,7 +74,7 @@ export const Hero = () => {
               <ShieldCheck size={16} className="text-brand-blue" /> Best price guarantee
             </span>
             <span className="inline-flex items-center gap-2">
-              <Star size={16} className="text-brand-blue" /> 8+ years experience
+              <Star size={16} className="text-brand-blue" /> 22 years experience
             </span>
           </motion.div>
         </motion.div>
