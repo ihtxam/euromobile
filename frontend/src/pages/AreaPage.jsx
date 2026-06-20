@@ -79,7 +79,10 @@ export default function AreaPage() {
 
   if (!area) return <Navigate to="/" replace />;
 
-  const nearby = areas.filter((a) => a.slug !== area.slug).slice(0, 6);
+  const nearby = areas
+    .filter((a) => a.slug !== area.slug)
+    .sort((a, b) => Math.abs(a.distance - area.distance) - Math.abs(b.distance - area.distance))
+    .slice(0, 6);
 
   return (
     <div data-testid="area-page" className="min-h-screen bg-white">

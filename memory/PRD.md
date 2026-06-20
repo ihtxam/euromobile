@@ -35,10 +35,13 @@ React (CRA) + FastAPI + MongoDB. (User asked for Next.js; built on the supported
 - Tested: 100% backend + 100% frontend (iteration_2). No open bugs.
 
 ## Implemented (2026-06-20)
-- **Top announcement bar** (TopBar.jsx) with live open/closed status — pulsing green dot when open, amber when closed, computed from UK time (Mon–Sat 10am–6pm) — plus WhatsApp + phone quick links.
+- **Top announcement bar** (TopBar.jsx) with live open/closed status — pulsing green dot when open, amber when closed, computed from UK time (Mon–Sat 10am–6pm) — plus WhatsApp + phone quick links. Now includes a **live countdown** ("Opens in Xh Ym Zs" within 12h, else "Opens <Day> at 10:00").
 - Updated **WhatsApp number** to +44 786 94 92 537 (wa.me/447869492537) across TopBar and floating widget.
-- Footer: **"Get directions"** links (next to address and a full-width button under the Google Map) → Google Maps directions to the shop.
-- Footer credit: **"Website designed in Switzerland by WebPrintMedia.swiss"** (linked).
+- Footer: **"Get directions"** links (next to address and a full-width button under the Google Map) → Google Maps directions to the shop. Footer credit: **"Website designed in Switzerland by WebPrintMedia.swiss"** (linked).
+- **Local SEO area pages**: 15 nearby-town pages at `/areas/:slug` (Nelson, Brierfield, Padiham, Hapton, Colne, Accrington, Great Harwood, Whalley, Rawtenstall, Clitheroe, Barnoldswick, Bacup, Todmorden, Blackburn, Darwen) — each with localized H1/meta/canonical + LocalBusiness JSON-LD, services grid, nearby-area links and quote CTA.
+- Homepage **"Areas we cover"** section + footer area links; service pages now include an **"Areas we serve"** block and a local-area FAQ.
+- **sitemap.xml + robots.txt** added (lists all service + area URLs).
+- Tested: 100% frontend (iteration_3), no open bugs. Backend unchanged (5/5 in iteration_2).
 
 ## Backlog / Next Tasks
 - P1: Integrate real payment-link generation (Stripe) triggered after admin reviews a request.
