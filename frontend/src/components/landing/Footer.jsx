@@ -1,4 +1,4 @@
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Navigation } from "lucide-react";
 import { Link } from "react-router-dom";
 import { contact } from "@/data/contact";
 
@@ -38,7 +38,11 @@ export const Footer = () => {
           <div className="md:col-span-4">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-yellow mb-5">Get in touch</p>
             <ul className="space-y-4 text-sm text-white/70">
-              <li className="flex items-start gap-3"><MapPin size={17} className="text-brand-yellow mt-0.5 shrink-0" /> <span>{contact.addressLine1}, {contact.addressLine2}<br/>United Kingdom</span></li>
+              <li className="flex items-start gap-3"><MapPin size={17} className="text-brand-yellow mt-0.5 shrink-0" /> <span>{contact.addressLine1}, {contact.addressLine2}<br/>United Kingdom<br/>
+                <a href={contact.directionsHref} target="_blank" rel="noopener noreferrer" data-testid="directions-address" className="inline-flex items-center gap-1.5 mt-2 text-brand-yellow font-medium hover:underline underline-offset-2">
+                  <Navigation size={14} /> Get directions
+                </a>
+              </span></li>
               <li className="flex items-center gap-3"><Phone size={17} className="text-brand-yellow shrink-0" /> <a href={contact.phoneHref} className="hover:text-white transition-colors">{contact.phoneDisplay}</a></li>
               <li className="flex items-center gap-3"><Mail size={17} className="text-brand-yellow shrink-0" /> <a href={`mailto:${contact.email}`} className="hover:text-white transition-colors break-all">{contact.email}</a></li>
               <li className="flex items-center gap-3"><Clock size={17} className="text-brand-yellow shrink-0" /> {contact.hours}</li>
@@ -52,6 +56,15 @@ export const Footer = () => {
                 referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
+            <a
+              href={contact.directionsHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-testid="directions-map"
+              className="mt-3 w-full inline-flex items-center justify-center gap-2 bg-brand-yellow text-black font-semibold px-5 py-3 hover:bg-yellow-400 transition-colors"
+            >
+              <Navigation size={16} /> Get directions
+            </a>
           </div>
         </div>
 
@@ -63,6 +76,17 @@ export const Footer = () => {
             <button onClick={() => window.dispatchEvent(new Event("open-quote"))} className="hover:text-white transition-colors">Request a repair</button>
           </div>
         </div>
+        <p data-testid="designed-by" className="mt-6 text-center text-xs text-white/40">
+          Website designed in Switzerland by{" "}
+          <a
+            href="https://webprintmedia.swiss"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-brand-yellow font-medium hover:underline underline-offset-2"
+          >
+            WebPrintMedia.swiss
+          </a>
+        </p>
       </div>
     </footer>
   );

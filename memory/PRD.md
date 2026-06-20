@@ -34,6 +34,12 @@ React (CRA) + FastAPI + MongoDB. (User asked for Next.js; built on the supported
 - Real contact details wired everywhere: **60 Keirby Walk, Burnley, BB11 2DE**, phone **01282 761818**, WhatsApp wa.me/441282761818, Google Map embed in footer. Email made optional server-side.
 - Tested: 100% backend + 100% frontend (iteration_2). No open bugs.
 
+## Implemented (2026-06-20)
+- **Top announcement bar** (TopBar.jsx) with live open/closed status — pulsing green dot when open, amber when closed, computed from UK time (Mon–Sat 10am–6pm) — plus WhatsApp + phone quick links.
+- Updated **WhatsApp number** to +44 786 94 92 537 (wa.me/447869492537) across TopBar and floating widget.
+- Footer: **"Get directions"** links (next to address and a full-width button under the Google Map) → Google Maps directions to the shop.
+- Footer credit: **"Website designed in Switzerland by WebPrintMedia.swiss"** (linked).
+
 ## Backlog / Next Tasks
 - P1: Integrate real payment-link generation (Stripe) triggered after admin reviews a request.
 - P1: Admin dashboard to view/manage incoming repair requests and update status.

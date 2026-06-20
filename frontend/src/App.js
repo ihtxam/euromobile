@@ -4,11 +4,13 @@ import { Toaster } from "sonner";
 import LandingPage from "@/pages/LandingPage";
 import ServicePage from "@/pages/ServicePage";
 import { FloatingWidgets } from "@/components/landing/FloatingWidgets";
+import { TopBar } from "@/components/landing/TopBar";
 
 function App() {
   return (
     <div className="App font-body text-slate-900 antialiased">
       <Toaster position="top-center" richColors />
+      <TopBar />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
