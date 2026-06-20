@@ -7,8 +7,9 @@ import { Footer } from "@/components/landing/Footer";
 import { Reveal } from "@/components/landing/Reveal";
 import { getService, services } from "@/data/services";
 import { contact } from "@/data/contact";
+import { areas, areaNames } from "@/data/areas";
 
-const useSeo = (service) => {
+const useSeo = (service, faqs) => {
   useEffect(() => {
     if (!service) return;
     document.title = service.metaTitle;
@@ -62,7 +63,7 @@ const useSeo = (service) => {
         },
         {
           "@type": "FAQPage",
-          mainEntity: service.faqs.map((f) => ({
+          mainEntity: faqs.map((f) => ({
             "@type": "Question",
             name: f.q,
             acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -82,7 +83,7 @@ const useSeo = (service) => {
     return () => {
       document.title = "Euro Mobile & Computer — Expert Mobile, PC & Tablet Repairs in Burnley";
     };
-  }, [service]);
+  }, [service, faqs]);
 };
 
 const Faq = ({ q, a, idx }) => {
@@ -105,7 +106,16 @@ const Faq = ({ q, a, idx }) => {
 export default function ServicePage() {
   const { slug } = useParams();
   const service = getService(slug);
-  useSeo(service);
+  const faqs = service
+    ? [
+        ...service.faqs,
+        {
+          q: `Which areas do you cover for ${service.name.toLowerCase()}?`,
+          a: `We're based at 60 Keirby Walk in Burnley and cover all surrounding towns including ${areaNames.slice(0, 8).join(", ")} and more — plus free nationwide mail-in repairs across the UK.`,
+        },
+      ]
+    : [];
+  useSeo(service, faqs);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -233,7 +243,7 @@ export default function ServicePage() {
           </h2>
         </Reveal>
         <div className="mt-10 space-y-3">
-          {service.faqs.map((f, i) => (
+          {faqs.map((f, i) => (
             <Faq key={f.q} {...f} idx={i} />
           ))}
         </div>
@@ -253,6 +263,30 @@ export default function ServicePage() {
           >
             Request a repair <ArrowRight size={18} />
           </Link>
+        </div>
+      </section>
+
+      {/* Areas we serve */}
+      <section className="bg-[#FAFAFA] border-y border-slate-200 py-16 md:py-20">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <h2 className="font-heading font-bold tracking-tight text-slate-900 text-2xl">
+            {service.name} across Burnley &amp; surrounding areas
+          </h2>
+          <p className="text-slate-600 mt-3 max-w-2xl">
+            We serve customers from across {areaNames.slice(0, 6).join(", ")} and beyond — visit the shop or use our nationwide mail-in repair service.
+          </p>
+          <div className="mt-7 flex flex-wrap gap-3">
+            {areas.map((a) => (
+              <Link
+                key={a.slug}
+                to={`/areas/${a.slug}`}
+                data-testid={`service-area-${a.slug}`}
+                className="inline-flex items-center gap-2 bg-white border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-700 hover:border-brand-blue hover:text-brand-blue transition-colors"
+              >
+                {a.name}
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 

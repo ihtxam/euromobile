@@ -1,0 +1,46 @@
+{
+  "summary": "Iteration 3 — frontend-only testing of NEW local-SEO round (15 area pages, homepage AreasServed, footer area links, ServicePage areas block + area FAQ, TopBar open/closed countdown, sitemap.xml, robots.txt) plus regressions. All review_request scenarios PASS. Backend pytest NOT re-run (per main-agent note); GET /api/repair-requests used only for persistence verification.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_repair_requests.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "TopBar timezone helper `ukNow()` builds a Date via `toLocaleString('en-US', { timeZone: 'Europe/London' })` then re-parses — this is a fragile pattern (locale-dependent month order in strings, no DST safety guarantee on older runtimes). Prefer Intl.DateTimeFormat with formatToParts to compute UK-local day/hour, or just `new Date()` if the server is expected to be UK-time. Currently works in this preview env, just brittle.",
+    "TopBar setInterval(...,1000) re-evaluates Date+timezone every second on every page; minor CPU waste. Could throttle to every 1s only when within 12h of opening, otherwise 60s.",
+    "sitemap.xml hardcodes the production domain `https://euromobilecomputer.co.uk` rather than reading from REACT_APP_BACKEND_URL/an env. Acceptable for static SEO file, but ensure it's intended.",
+    "AreaPage `useSeo` adds <meta>/<link rel=canonical>/<script ld-json-area> but the cleanup only resets document.title — meta description, og tags, canonical, and JSON-LD are NOT removed on unmount. They get overwritten when navigating to another AreaPage/ServicePage, but visiting the homepage after an area page leaves stale area-specific meta in <head>. Same pattern exists in ServicePage. Low SEO impact (SSR/crawlers see the initial values) but cleaner to remove on unmount.",
+    "ServicePage CTA buttons (service-cta-primary, service-cta-band) still link to `/#repair` instead of dispatching the new `open-quote` event used elsewhere — minor UX inconsistency vs area pages.",
+    "AreaPage 'nearby chips' uses `.slice(0, 6)` of all 15 areas in their array order, not actual nearest-by-distance. e.g. Darwen (13 mi) shows Nelson/Brierfield/Padiham as 'nearby' while Blackburn (also far) is hidden. Cosmetic — main agent may want to sort by distance from the current area."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a (not re-run)", "frontend": "100%"},
+  "test_credentials": "N/A (no auth)",
+  "seed_data_creation": "Created 3 new repair-request records via UI flows: TEST_AREA_1781987157 (area-cta-quote on /areas/accrington), TEST_REPFORM_1781987186 (homepage repair-form-submit regression), TEST_FAB_1781987186 (fab-toggle → fab-quote regression). All verified persisted via GET /api/repair-requests (total now 11).",
+  "verified_features": [
+    "TopBar: data-testid=top-bar present on every page. data-testid=open-status reads 'Currently closed Opens Mon at 10:00 · Mon–Sat, 10am–6pm' at test time (Saturday after 18:00 UK → next open is Monday). data-testid=open-countdown present with text 'Opens Mon at 10:00' (matches the >12h Day-format branch). Countdown element is present and updates via setInterval (verified element re-rendered; format regex matched).",
+    "Homepage AreasServed: data-testid=areas-served present; all 15 area-link-<slug> testids found (nelson, brierfield, padiham, hapton, colne, accrington, great-harwood, whalley, rawtenstall, clitheroe, barnoldswick, bacup, todmorden, blackburn, darwen). Clicking area-link-nelson navigates to /areas/nelson.",
+    "Footer: all 15 footer-area-<slug> testids found.",
+    "All 15 area pages render correctly: data-testid=area-page, H1 = 'Mobile & Computer Repair in <Town>', document.title contains the town name, breadcrumb present, services grid contains area-service-mobile-phone-repair (and other services), 6 nearby-* chips, area-cta-quote + area-cta-band CTAs, localised body text mentioning the town and 'Lancashire'/'West Yorkshire'.",
+    "area-cta-quote on /areas/accrington opens data-testid=quote-modal; submitting valid fields shows 'Quote request sent!' toast, closes modal, and record persists in GET /api/repair-requests (TEST_AREA_1781987157 confirmed).",
+    "area-cta-band on /areas/colne opens the same quote-modal.",
+    "ServicePage /services/mobile-phone-repair AND /services/data-recovery both render 'Areas we serve' block with 15 service-area-<slug> links, and an extra FAQ titled 'Which areas do you cover for <service name>?' (verified in faq-toggle text content).",
+    "sitemap.xml served at /sitemap.xml — valid XML (<?xml + <urlset>), contains all 15 /areas/<slug> URLs and all 7 /services/<slug> URLs (mobile-phone-repair, iphone-repair, samsung-galaxy-repair, laptop-pc-repair, tablet-ipad-repair, data-recovery, phone-unlocking).",
+    "robots.txt served at /robots.txt — Cloudflare-managed AI-bot block prepended, our 'Sitemap: https://euromobilecomputer.co.uk/sitemap.xml' line appended at the end (expected per main-agent note).",
+    "Regression: homepage repair form (form-name/form-phone/form-email/form-model/form-issue → repair-form-submit) shows data-testid=repair-success and persists (TEST_REPFORM_1781987186 in API).",
+    "Regression: floating widget fab-toggle → fab-quote → quote-modal → quote-submit works and persists (TEST_FAB_1781987186 in API)."
+  ],
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "All 15 area routes (/areas/{slug}) are working; AreaPage SEO and JSON-LD inject correctly. Quote modal uses field testids: quote-name, quote-phone, quote-email, quote-device-type (select), quote-model (input — NOT 'quote-device'), quote-issue, quote-submit, quote-modal-close. Homepage repair form uses form-* testids (form-name/phone/email/model/issue) with repair-form-submit. Direct urllib calls to /api endpoints get 403 from the preview proxy — use curl with a User-Agent header or page.request from Playwright. Backend test suite at /app/backend/tests/test_repair_requests.py was NOT re-run this iteration (5/5 in iteration_2, endpoint unchanged).",
+  "rca of the issue": "N/A — no issues found in this iteration."
+}

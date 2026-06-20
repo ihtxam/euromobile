@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "sonner";
 import LandingPage from "@/pages/LandingPage";
 import ServicePage from "@/pages/ServicePage";
+import AreaPage from "@/pages/AreaPage";
 import { FloatingWidgets } from "@/components/landing/FloatingWidgets";
 import { TopBar } from "@/components/landing/TopBar";
 
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/services/:slug" element={<ServicePage />} />
+          <Route path="/areas/:slug" element={<AreaPage />} />
         </Routes>
         <FloatingWidgets />
       </BrowserRouter>

@@ -1,6 +1,7 @@
 import { MapPin, Phone, Mail, Clock, Navigation } from "lucide-react";
 import { Link } from "react-router-dom";
 import { contact } from "@/data/contact";
+import { areas } from "@/data/areas";
 
 export const Footer = () => {
   return (
@@ -65,6 +66,22 @@ export const Footer = () => {
             >
               <Navigation size={16} /> Get directions
             </a>
+          </div>
+        </div>
+
+        <div className="mt-14 pt-10 border-t border-white/10">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-yellow mb-5">Areas we cover</p>
+          <div className="flex flex-wrap gap-x-5 gap-y-2.5 text-sm">
+            {areas.map((a) => (
+              <Link
+                key={a.slug}
+                to={`/areas/${a.slug}`}
+                data-testid={`footer-area-${a.slug}`}
+                className="text-white/55 hover:text-white transition-colors"
+              >
+                {a.name}
+              </Link>
+            ))}
           </div>
         </div>
 

@@ -2,21 +2,59 @@ import { useState, useEffect } from "react";
 import { Phone, MessageCircle, Clock } from "lucide-react";
 import { contact } from "@/data/contact";
 
-// Compute open/closed status using UK (Europe/London) time. Mon–Sat 10:00–18:00.
+const OPEN_HOUR = 10;
+const CLOSE_HOUR = 18;
+const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+// Current time in the shop's timezone (Europe/London)
+const ukNow = () => new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/London" }));
+
+const isOpenAt = (d) => {
+  const day = d.getDay();
+  const hour = d.getHours() + d.getMinutes() / 60;
+  return day >= 1 && day <= 6 && hour >= OPEN_HOUR && hour < CLOSE_HOUR;
+};
+
+// Find the next opening Date (Mon–Sat at 10:00)
+const nextOpen = (now) => {
+  for (let i = 0; i < 8; i++) {
+    const c = new Date(now);
+    c.setDate(now.getDate() + i);
+    c.setHours(OPEN_HOUR, 0, 0, 0);
+    if (c.getDay() >= 1 && c.getDay() <= 6 && c > now) return c;
+  }
+  return null;
+};
+
 const getStatus = () => {
-  const now = new Date();
-  const uk = new Date(now.toLocaleString("en-US", { timeZone: "Europe/London" }));
-  const day = uk.getDay(); // 0 Sun … 6 Sat
-  const hour = uk.getHours() + uk.getMinutes() / 60;
-  const isOpen = day >= 1 && day <= 6 && hour >= 10 && hour < 18;
-  return { isOpen };
+  const now = ukNow();
+  const open = isOpenAt(now);
+  if (open) return { isOpen: true, countdown: "" };
+
+  const next = nextOpen(now);
+  if (!next) return { isOpen: false, countdown: "" };
+
+  const diffMs = next - now;
+  const totalMin = Math.floor(diffMs / 60000);
+  const h = Math.floor(totalMin / 60);
+  const m = totalMin % 60;
+  const s = Math.floor((diffMs % 60000) / 1000);
+
+  let countdown;
+  if (diffMs <= 12 * 3600 * 1000) {
+    // within 12 hours — show live countdown
+    countdown = h > 0 ? `Opens in ${h}h ${m}m ${s}s` : `Opens in ${m}m ${s}s`;
+  } else {
+    countdown = `Opens ${DAYS[next.getDay()]} at 10:00`;
+  }
+  return { isOpen: false, countdown };
 };
 
 export const TopBar = () => {
-  const [{ isOpen }, setStatus] = useState(getStatus());
+  const [{ isOpen, countdown }, setStatus] = useState(getStatus());
 
   useEffect(() => {
-    const id = setInterval(() => setStatus(getStatus()), 60000);
+    const id = setInterval(() => setStatus(getStatus()), 1000);
     return () => clearInterval(id);
   }, []);
 
@@ -37,8 +75,13 @@ export const TopBar = () => {
           <span className="font-semibold truncate">
             {isOpen ? "We're open now" : "Currently closed"}
           </span>
-          <span className="hidden sm:inline text-white/45">·</span>
-          <span className="hidden sm:inline-flex items-center gap-1.5 text-white/60">
+          {!isOpen && countdown && (
+            <span data-testid="open-countdown" className="inline-flex items-center gap-1.5 bg-amber-400/15 text-amber-300 px-2 py-0.5 text-xs font-medium tabular-nums">
+              {countdown}
+            </span>
+          )}
+          <span className="hidden md:inline text-white/45">·</span>
+          <span className="hidden md:inline-flex items-center gap-1.5 text-white/60">
             <Clock size={13} /> {contact.hours}
           </span>
         </div>

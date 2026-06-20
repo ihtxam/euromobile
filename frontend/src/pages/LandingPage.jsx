@@ -5,6 +5,7 @@ import { Services } from "@/components/landing/Services";
 import { HowItWorks } from "@/components/landing/HowItWorks";
 import { DataRecovery } from "@/components/landing/DataRecovery";
 import { Trust } from "@/components/landing/Trust";
+import { AreasServed } from "@/components/landing/AreasServed";
 import { RepairForm } from "@/components/landing/RepairForm";
 import { Footer } from "@/components/landing/Footer";
 
@@ -19,6 +20,7 @@ export default function LandingPage() {
         <HowItWorks />
         <DataRecovery />
         <Trust />
+        <AreasServed />
         <RepairForm />
       </main>
       <Footer />
