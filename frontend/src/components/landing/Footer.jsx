@@ -87,7 +87,9 @@ export const Footer = () => {
 
         <div className="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-white/40">© {new Date().getFullYear()} Euro Mobile &amp; Computer. All rights reserved.</p>
-          <div className="flex gap-6 text-xs text-white/40">
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-white/40 justify-center">
+            <Link to="/about" className="hover:text-white transition-colors">About</Link>
+            <Link to="/contact" className="hover:text-white transition-colors">Contact</Link>
             <Link to="/" className="hover:text-white transition-colors">Privacy</Link>
             <Link to="/" className="hover:text-white transition-colors">Terms</Link>
             <button onClick={() => window.dispatchEvent(new Event("open-quote"))} className="hover:text-white transition-colors">Request a repair</button>

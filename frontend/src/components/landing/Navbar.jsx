@@ -6,8 +6,9 @@ import { contact } from "@/data/contact";
 const links = [
   { label: "Services", href: "#services" },
   { label: "How it works", href: "#how-it-works" },
-  { label: "Why us", href: "#why-us" },
-  { label: "Contact", href: "#repair" },
+  { label: "Areas", href: "#areas" },
+  { label: "About", to: "/about" },
+  { label: "Contact", to: "/contact" },
 ];
 
 const Logo = () => (
@@ -51,16 +52,27 @@ export const Navbar = () => {
         <Logo />
 
         <div className="hidden md:flex items-center gap-9">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={`${prefix}${l.href}`}
-              data-testid={`nav-link-${l.label.toLowerCase().replace(/\s/g, "-")}`}
-              className="text-sm font-medium text-slate-600 hover:text-brand-blue transition-colors"
-            >
-              {l.label}
-            </a>
-          ))}
+          {links.map((l) =>
+            l.to ? (
+              <Link
+                key={l.label}
+                to={l.to}
+                data-testid={`nav-link-${l.label.toLowerCase().replace(/\s/g, "-")}`}
+                className="text-sm font-medium text-slate-600 hover:text-brand-blue transition-colors"
+              >
+                {l.label}
+              </Link>
+            ) : (
+              <a
+                key={l.label}
+                href={`${prefix}${l.href}`}
+                data-testid={`nav-link-${l.label.toLowerCase().replace(/\s/g, "-")}`}
+                className="text-sm font-medium text-slate-600 hover:text-brand-blue transition-colors"
+              >
+                {l.label}
+              </a>
+            )
+          )}
         </div>
 
         <div className="hidden md:flex items-center gap-3">
@@ -92,16 +104,27 @@ export const Navbar = () => {
 
       {open && (
         <div data-testid="nav-mobile-menu" className="md:hidden bg-white border-t border-slate-200 px-6 py-4 flex flex-col gap-1">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={`${prefix}${l.href}`}
-              onClick={() => setOpen(false)}
-              className="py-2.5 text-sm font-medium text-slate-700"
-            >
-              {l.label}
-            </a>
-          ))}
+          {links.map((l) =>
+            l.to ? (
+              <Link
+                key={l.label}
+                to={l.to}
+                onClick={() => setOpen(false)}
+                className="py-2.5 text-sm font-medium text-slate-700"
+              >
+                {l.label}
+              </Link>
+            ) : (
+              <a
+                key={l.label}
+                href={`${prefix}${l.href}`}
+                onClick={() => setOpen(false)}
+                className="py-2.5 text-sm font-medium text-slate-700"
+              >
+                {l.label}
+              </a>
+            )
+          )}
           <a
             href={`${prefix}#repair`}
             onClick={() => setOpen(false)}
