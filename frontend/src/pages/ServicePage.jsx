@@ -5,86 +5,44 @@ import { ArrowRight, ChevronRight, Check, Plus, Minus, Phone } from "lucide-reac
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { Reveal } from "@/components/landing/Reveal";
+import { SEO } from "@/components/SEO";
 import { getService, services } from "@/data/services";
 import { contact } from "@/data/contact";
 import { areas, areaNames } from "@/data/areas";
 
-const useSeo = (service, faqs) => {
-  useEffect(() => {
-    if (!service) return;
-    document.title = service.metaTitle;
-
-    const setMeta = (attr, key, content) => {
-      let el = document.querySelector(`meta[${attr}="${key}"]`);
-      if (!el) {
-        el = document.createElement("meta");
-        el.setAttribute(attr, key);
-        document.head.appendChild(el);
-      }
-      el.setAttribute("content", content);
-    };
-    setMeta("name", "description", service.metaDescription);
-    setMeta("property", "og:title", service.metaTitle);
-    setMeta("property", "og:description", service.metaDescription);
-    setMeta("property", "og:type", "website");
-
-    // canonical
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.setAttribute("rel", "canonical");
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute("href", `${window.location.origin}/services/${service.slug}`);
-
-    // JSON-LD structured data (Service + FAQ)
-    const ld = {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Service",
-          name: service.name,
-          serviceType: service.name,
-          description: service.metaDescription,
-          areaServed: ["Burnley", "Nelson", "Accrington", "Padiham", "Lancashire"],
-          provider: {
-            "@type": "LocalBusiness",
-            name: "Euro Mobile & Computer",
-            telephone: "+441282761818",
-            address: {
-              "@type": "PostalAddress",
-              streetAddress: "60 Keirby Walk",
-              addressLocality: "Burnley",
-              postalCode: "BB11 2DE",
-              addressRegion: "Lancashire",
-              addressCountry: "GB",
-            },
-          },
+const buildServiceSchema = (service, faqs) => ({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      name: service.name,
+      serviceType: service.name,
+      description: service.metaDescription,
+      areaServed: ["Burnley", "Nelson", "Accrington", "Padiham", "Lancashire"],
+      provider: {
+        "@type": "LocalBusiness",
+        name: "Euro Mobile & Computer",
+        telephone: "+441282761818",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "60 Keirby Walk",
+          addressLocality: "Burnley",
+          postalCode: "BB11 2DE",
+          addressRegion: "Lancashire",
+          addressCountry: "GB",
         },
-        {
-          "@type": "FAQPage",
-          mainEntity: faqs.map((f) => ({
-            "@type": "Question",
-            name: f.q,
-            acceptedAnswer: { "@type": "Answer", text: f.a },
-          })),
-        },
-      ],
-    };
-    let script = document.getElementById("ld-json-service");
-    if (!script) {
-      script = document.createElement("script");
-      script.type = "application/ld+json";
-      script.id = "ld-json-service";
-      document.head.appendChild(script);
-    }
-    script.textContent = JSON.stringify(ld);
-
-    return () => {
-      document.title = "Euro Mobile & Computer — Expert Mobile, PC & Tablet Repairs in Burnley";
-    };
-  }, [service, faqs]);
-};
+      },
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+});
 
 const Faq = ({ q, a, idx }) => {
   const [open, setOpen] = useState(idx === 0);
@@ -115,8 +73,6 @@ export default function ServicePage() {
         },
       ]
     : [];
-  useSeo(service, faqs);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
@@ -128,6 +84,12 @@ export default function ServicePage() {
 
   return (
     <div data-testid="service-page" className="min-h-screen bg-white">
+      <SEO
+        title={service.metaTitle}
+        description={service.metaDescription}
+        canonical={`https://euromobilecomputer.co.uk/services/${service.slug}`}
+        jsonLd={buildServiceSchema(service, faqs)}
+      />
       <Navbar />
 
       {/* Hero */}

@@ -43,6 +43,13 @@ React (CRA) + FastAPI + MongoDB. (User asked for Next.js; built on the supported
 - **sitemap.xml + robots.txt** added (lists all service + area URLs).
 - Tested: 100% frontend (iteration_3), no open bugs. Backend unchanged (5/5 in iteration_2).
 
+## Implemented (2026-06-30) — per-page SEO (react-helmet-async)
+- Installed **react-helmet-async** and wrapped the app in `HelmetProvider`; created a reusable **`SEO` component** (`src/components/SEO.jsx`).
+- Every page now emits a **unique `<title>` + `<meta description>` + canonical + Open Graph/Twitter tags**: homepage, 7 service pages, 15 area pages (23 routes). Removed the imperative `useEffect` meta injection and the stale static `<meta description>` from index.html.
+- LocalBusiness JSON-LD on homepage; Service+FAQ JSON-LD on service pages; LocalBusiness JSON-LD (per-city) on area pages.
+- Area page titles follow the client's suggested template: "Phone & Laptop Repair in {Area} | Euro Mobile & Computer".
+- Note: the instructions referenced `/services` index, `/repairs`, `/contact`, `/about` pages that don't exist in this build — applied SEO to the actual routes instead. react-snap pre-render (client's deploy pipeline) will bake the Helmet output into static HTML.
+
 ## Backlog / Next Tasks
 - P1: Integrate real payment-link generation (Stripe) triggered after admin reviews a request.
 - P1: Admin dashboard to view/manage incoming repair requests and update status.

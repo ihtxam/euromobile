@@ -5,79 +5,40 @@ import { ArrowRight, ChevronRight, MapPin, Phone, Check } from "lucide-react";
 import { Navbar } from "@/components/landing/Navbar";
 import { Footer } from "@/components/landing/Footer";
 import { Reveal } from "@/components/landing/Reveal";
+import { SEO } from "@/components/SEO";
 import { getArea, areas } from "@/data/areas";
 import { services } from "@/data/services";
 import { contact } from "@/data/contact";
 
-const useSeo = (area) => {
-  useEffect(() => {
-    if (!area) return;
-    const title = `Mobile & Computer Repair ${area.name} | Euro Mobile & Computer`;
-    const desc = `Mobile phone, PC, laptop and tablet repair for ${area.name}, ${area.county}. Just ${area.distance} miles from our Burnley shop — in-store or by post. Screen replacement, battery, data recovery & unlocking. Free quote.`;
-    document.title = title;
-
-    const setMeta = (attr, key, content) => {
-      let el = document.querySelector(`meta[${attr}="${key}"]`);
-      if (!el) {
-        el = document.createElement("meta");
-        el.setAttribute(attr, key);
-        document.head.appendChild(el);
-      }
-      el.setAttribute("content", content);
-    };
-    setMeta("name", "description", desc);
-    setMeta("property", "og:title", title);
-    setMeta("property", "og:description", desc);
-
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.setAttribute("rel", "canonical");
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute("href", `${window.location.origin}/areas/${area.slug}`);
-
-    const ld = {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      name: "Euro Mobile & Computer",
-      description: desc,
-      telephone: "+441282761818",
-      areaServed: { "@type": "City", name: area.name },
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "60 Keirby Walk",
-        addressLocality: "Burnley",
-        postalCode: "BB11 2DE",
-        addressRegion: "Lancashire",
-        addressCountry: "GB",
-      },
-    };
-    let script = document.getElementById("ld-json-area");
-    if (!script) {
-      script = document.createElement("script");
-      script.type = "application/ld+json";
-      script.id = "ld-json-area";
-      document.head.appendChild(script);
-    }
-    script.textContent = JSON.stringify(ld);
-
-    return () => {
-      document.title = "Euro Mobile & Computer — Expert Mobile, PC & Tablet Repairs in Burnley";
-    };
-  }, [area]);
-};
+const buildAreaSchema = (area, desc) => ({
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "Euro Mobile & Computer",
+  description: desc,
+  telephone: "+441282761818",
+  areaServed: { "@type": "City", name: area.name },
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "60 Keirby Walk",
+    addressLocality: "Burnley",
+    postalCode: "BB11 2DE",
+    addressRegion: "Lancashire",
+    addressCountry: "GB",
+  },
+});
 
 export default function AreaPage() {
   const { slug } = useParams();
   const area = getArea(slug);
-  useSeo(area);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
 
   if (!area) return <Navigate to="/" replace />;
+
+  const seoTitle = `Phone & Laptop Repair in ${area.name}`;
+  const seoDesc = `Fast phone, laptop and tablet repairs for customers in ${area.name}, ${area.county}. Drop off at our Burnley store (just ${area.distance} miles away) or use our free mail-in service. Screen replacement, battery, data recovery & unlocking.`;
 
   const nearby = areas
     .filter((a) => a.slug !== area.slug)
@@ -86,6 +47,12 @@ export default function AreaPage() {
 
   return (
     <div data-testid="area-page" className="min-h-screen bg-white">
+      <SEO
+        title={seoTitle}
+        description={seoDesc}
+        canonical={`https://euromobilecomputer.co.uk/areas/${area.slug}`}
+        jsonLd={buildAreaSchema(area, seoDesc)}
+      />
       <Navbar />
 
       {/* Hero */}

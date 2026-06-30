@@ -8,10 +8,16 @@ import { Trust } from "@/components/landing/Trust";
 import { AreasServed } from "@/components/landing/AreasServed";
 import { RepairForm } from "@/components/landing/RepairForm";
 import { Footer } from "@/components/landing/Footer";
+import { SEO, localBusinessSchema } from "@/components/SEO";
 
 export default function LandingPage() {
   return (
     <div data-testid="landing-page" className="min-h-screen bg-white">
+      <SEO
+        title="Mobile, PC & Tablet Repair in Burnley"
+        description="Euro Mobile & Computer — expert mobile phone, PC, laptop and tablet repairs in Burnley. Screen replacement, battery, data recovery & unlocking. 22 years experience, best price guarantee. In-store or nationwide mail-in repairs."
+        jsonLd={localBusinessSchema}
+      />
       <Navbar />
       <main>
         <Hero />
