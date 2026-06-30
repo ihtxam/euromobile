@@ -50,6 +50,12 @@ React (CRA) + FastAPI + MongoDB. (User asked for Next.js; built on the supported
 - Area page titles follow the client's suggested template: "Phone & Laptop Repair in {Area} | Euro Mobile & Computer".
 - Note: the instructions referenced `/services` index, `/repairs`, `/contact`, `/about` pages that don't exist in this build — applied SEO to the actual routes instead. react-snap pre-render (client's deploy pipeline) will bake the Helmet output into static HTML.
 
+## Implemented (2026-06-30) — Contact/About pages + OG image
+- Created **/contact** page (address, phone, WhatsApp, email, hours, Google map, Get-directions, embedded repair form) and **/about** page (story, animated stats, values, CTA) — each with unique SEO title/description + LocalBusiness JSON-LD.
+- Navbar now links **About** and **Contact** as real pages (links: Services, How it works, Areas, About, Contact); footer links added; sitemap.xml updated with /about and /contact.
+- Added a **branded `og:image`** (1200×630, generated at `/app/frontend/public/og-image.png`) referenced via `og:image`/`twitter:image` on every page for rich link previews on WhatsApp/Facebook/etc.
+- Tested: 100% frontend (iteration_4). No open bugs.
+
 ## Backlog / Next Tasks
 - P1: Integrate real payment-link generation (Stripe) triggered after admin reviews a request.
 - P1: Admin dashboard to view/manage incoming repair requests and update status.
